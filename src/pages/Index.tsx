@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { ArrowRight } from "lucide-react";
 import Icon from "@/components/ui/icon";
 
@@ -31,7 +31,119 @@ const shootingStars = Array.from({ length: SHOOTING_STARS_COUNT }, (_, i) => ({
 
 const Index = () => {
   const [visibleSections, setVisibleSections] = useState<Record<string, boolean>>({});
+  const planetRef = useRef<HTMLCanvasElement>(null);
 
+  useEffect(() => {
+    const canvas = planetRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
+    const S = 500;
+    canvas.width = S;
+    canvas.height = S;
+    const R = 220;
+    const CX = S / 2;
+    const CY = S / 2;
+
+    // Текстура планеты
+    const TW = 800, TH = 400;
+    const tex = document.createElement("canvas");
+    tex.width = TW; tex.height = TH;
+    const tc = tex.getContext("2d")!;
+
+    const bands = [
+      [0,   40,  "#312e81"],
+      [40,  35,  "#4c1d95"],
+      [75,  30,  "#6d28d9"],
+      [105, 40,  "#7c3aed"],
+      [145, 30,  "#8b5cf6"],
+      [175, 35,  "#a855f7"],
+      [210, 30,  "#8b5cf6"],
+      [240, 40,  "#7c3aed"],
+      [280, 35,  "#6d28d9"],
+      [315, 45,  "#4c1d95"],
+      [360, 40,  "#312e81"],
+    ] as [number, number, string][];
+    bands.forEach(([y, h, c]) => { tc.fillStyle = c; tc.fillRect(0, y, TW, h); });
+
+    // Континенты
+    [
+      [100, 130, 80, 45],
+      [300, 170, 65, 38],
+      [500, 110, 90, 50],
+      [650, 220, 70, 36],
+      [180, 260, 60, 32],
+      [430, 290, 75, 38],
+      [720, 160, 55, 30],
+    ].forEach(([x, y, rx, ry]) => {
+      const g = tc.createRadialGradient(x, y, 0, x, y, Math.max(rx, ry));
+      g.addColorStop(0,   "rgba(233,213,255,0.8)");
+      g.addColorStop(0.5, "rgba(192,132,252,0.45)");
+      g.addColorStop(1,   "rgba(109,40,217,0)");
+      tc.fillStyle = g;
+      tc.beginPath(); tc.ellipse(x,      y, rx, ry, 0, 0, Math.PI * 2); tc.fill();
+      tc.beginPath(); tc.ellipse(x + TW, y, rx, ry, 0, 0, Math.PI * 2); tc.fill();
+    });
+
+    let offset = 0;
+    let raf: number;
+
+    const draw = () => {
+      ctx.clearRect(0, 0, S, S);
+
+      // Сферическая проекция — колонка за колонкой
+      for (let px = CX - R; px <= CX + R; px++) {
+        const nx = (px - CX) / R;                         // -1..1
+        const sliceH = Math.sqrt(1 - nx * nx) * R * 2;
+        const sliceY = CY - sliceH / 2;
+        const lon = ((Math.asin(nx) / Math.PI) + 0.5 + offset) % 1;
+        ctx.drawImage(tex, lon * TW, 0, 1, TH, px, sliceY, 1, sliceH);
+      }
+
+      // Обрезка по кругу
+      ctx.save();
+      ctx.globalCompositeOperation = "destination-in";
+      ctx.beginPath(); ctx.arc(CX, CY, R, 0, Math.PI * 2); ctx.fill();
+      ctx.restore();
+
+      // Ночная сторона
+      ctx.save();
+      ctx.beginPath(); ctx.arc(CX, CY, R, 0, Math.PI * 2); ctx.clip();
+      const night = ctx.createRadialGradient(CX + R * 0.6, CY, R * 0.05, CX + R * 0.45, CY, R);
+      night.addColorStop(0,   "rgba(0,0,0,0.88)");
+      night.addColorStop(0.5, "rgba(0,0,0,0.4)");
+      night.addColorStop(1,   "rgba(0,0,0,0)");
+      ctx.fillStyle = night;
+      ctx.fillRect(CX - R, CY - R, R * 2, R * 2);
+      ctx.restore();
+
+      // Блик
+      ctx.save();
+      ctx.beginPath(); ctx.arc(CX, CY, R, 0, Math.PI * 2); ctx.clip();
+      const shine = ctx.createRadialGradient(CX - R * 0.35, CY - R * 0.35, 0, CX - R * 0.15, CY - R * 0.15, R);
+      shine.addColorStop(0,   "rgba(255,255,255,0.25)");
+      shine.addColorStop(0.4, "rgba(255,255,255,0.06)");
+      shine.addColorStop(1,   "rgba(255,255,255,0)");
+      ctx.fillStyle = shine;
+      ctx.fillRect(CX - R, CY - R, R * 2, R * 2);
+      ctx.restore();
+
+      // Атмосфера
+      const atm = ctx.createRadialGradient(CX, CY, R - 2, CX, CY, R + 18);
+      atm.addColorStop(0,   "rgba(139,92,246,0)");
+      atm.addColorStop(0.4, "rgba(139,92,246,0.5)");
+      atm.addColorStop(1,   "rgba(139,92,246,0)");
+      ctx.beginPath(); ctx.arc(CX, CY, R + 18, 0, Math.PI * 2);
+      ctx.fillStyle = atm; ctx.fill();
+
+      offset = (offset + 0.003) % 1;
+      raf = requestAnimationFrame(draw);
+    };
+
+    draw();
+    return () => cancelAnimationFrame(raf);
+  }, []);
 
   useEffect(() => {
     const observers: Record<string, IntersectionObserver> = {};
@@ -205,51 +317,9 @@ const Index = () => {
         </div>
 
         {/* Rotating planet */}
-        <div className="absolute pointer-events-none" style={{ bottom: "-100px", right: "-100px", width: "500px", height: "500px", perspective: "900px" }}>
-          <div className="relative w-full h-full animate-spin-slow">
-            <svg viewBox="0 0 420 420" className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
-              <defs>
-                <radialGradient id="planetGrad" cx="38%" cy="35%" r="65%">
-                  <stop offset="0%" stopColor="#7c3aed" />
-                  <stop offset="40%" stopColor="#4f46e5" />
-                  <stop offset="80%" stopColor="#1e1b4b" />
-                  <stop offset="100%" stopColor="#0f0c29" />
-                </radialGradient>
-                <radialGradient id="shinGrad" cx="30%" cy="28%" r="40%">
-                  <stop offset="0%" stopColor="white" stopOpacity="0.18" />
-                  <stop offset="100%" stopColor="white" stopOpacity="0" />
-                </radialGradient>
-                <radialGradient id="nightGrad" cx="72%" cy="50%" r="50%">
-                  <stop offset="0%" stopColor="#000" stopOpacity="0.7" />
-                  <stop offset="100%" stopColor="#000" stopOpacity="0" />
-                </radialGradient>
-                <clipPath id="planetClip">
-                  <circle cx="210" cy="210" r="180" />
-                </clipPath>
-              </defs>
-              <circle cx="210" cy="210" r="180" fill="url(#planetGrad)" />
-              <g clipPath="url(#planetClip)" opacity="0.5">
-                <ellipse cx="210" cy="140" rx="190" ry="22" fill="#a78bfa" />
-                <ellipse cx="210" cy="175" rx="190" ry="16" fill="#c4b5fd" />
-                <ellipse cx="210" cy="210" rx="190" ry="20" fill="#818cf8" />
-                <ellipse cx="210" cy="248" rx="190" ry="14" fill="#a78bfa" />
-                <ellipse cx="210" cy="280" rx="190" ry="18" fill="#c4b5fd" />
-                <ellipse cx="210" cy="315" rx="190" ry="12" fill="#818cf8" />
-              </g>
-              <g clipPath="url(#planetClip)" opacity="0.45">
-                <ellipse cx="130" cy="185" rx="55" ry="32" fill="#e9d5ff" />
-                <ellipse cx="290" cy="155" rx="45" ry="28" fill="#ddd6fe" />
-                <ellipse cx="220" cy="265" rx="60" ry="30" fill="#e9d5ff" />
-                <ellipse cx="80"  cy="230" rx="35" ry="22" fill="#ddd6fe" />
-                <ellipse cx="330" cy="240" rx="40" ry="24" fill="#e9d5ff" />
-              </g>
-              <circle cx="210" cy="210" r="180" fill="url(#shinGrad)" />
-              <circle cx="210" cy="210" r="180" fill="url(#nightGrad)" clipPath="url(#planetClip)" />
-              <circle cx="210" cy="210" r="180" fill="none" stroke="#a78bfa" strokeWidth="6" opacity="0.35" />
-              <circle cx="210" cy="210" r="188" fill="none" stroke="#7c3aed" strokeWidth="12" opacity="0.15" />
-            </svg>
-          </div>
-          <div className="absolute inset-0 rounded-full bg-violet-600/25 blur-3xl scale-75 -z-10" />
+        <div className="absolute pointer-events-none" style={{ bottom: "-100px", right: "-100px", width: "500px", height: "500px" }}>
+          <canvas ref={planetRef} style={{ width: "500px", height: "500px" }} />
+          <div className="absolute inset-0 rounded-full bg-violet-600/20 blur-3xl scale-75 -z-10" />
         </div>
 
         <div className="absolute inset-0 bg-background/40" />
