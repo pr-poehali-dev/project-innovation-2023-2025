@@ -154,6 +154,45 @@ const Index = () => {
           <div className="absolute top-1/2 right-1/3 w-64 h-64 bg-indigo-600/10 rounded-full blur-2xl animate-nebula" style={{ animationDelay: "8s" }} />
         </div>
 
+        {/* Rotating planet */}
+        <div className="absolute pointer-events-none" style={{ bottom: "-80px", right: "-80px", width: "420px", height: "420px" }}>
+          <div className="relative w-full h-full animate-spin-slow">
+            <svg viewBox="0 0 420 420" className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <radialGradient id="planetGrad" cx="38%" cy="35%" r="65%">
+                  <stop offset="0%" stopColor="#7c3aed" stopOpacity="1" />
+                  <stop offset="40%" stopColor="#4f46e5" stopOpacity="1" />
+                  <stop offset="80%" stopColor="#1e1b4b" stopOpacity="1" />
+                  <stop offset="100%" stopColor="#0f0c29" stopOpacity="1" />
+                </radialGradient>
+                <radialGradient id="shinGrad" cx="30%" cy="28%" r="40%">
+                  <stop offset="0%" stopColor="white" stopOpacity="0.18" />
+                  <stop offset="100%" stopColor="white" stopOpacity="0" />
+                </radialGradient>
+                <clipPath id="planetClip">
+                  <circle cx="210" cy="210" r="180" />
+                </clipPath>
+              </defs>
+              {/* Planet base */}
+              <circle cx="210" cy="210" r="180" fill="url(#planetGrad)" />
+              {/* Surface bands */}
+              <g clipPath="url(#planetClip)" opacity="0.35">
+                <ellipse cx="210" cy="160" rx="190" ry="28" fill="#a78bfa" />
+                <ellipse cx="210" cy="210" rx="190" ry="22" fill="#6d28d9" />
+                <ellipse cx="210" cy="255" rx="190" ry="18" fill="#818cf8" />
+                <ellipse cx="210" cy="295" rx="190" ry="14" fill="#7c3aed" />
+              </g>
+              {/* Highlight */}
+              <circle cx="210" cy="210" r="180" fill="url(#shinGrad)" />
+              {/* Atmosphere rim */}
+              <circle cx="210" cy="210" r="180" fill="none" stroke="#a78bfa" strokeWidth="6" opacity="0.25" />
+              <circle cx="210" cy="210" r="186" fill="none" stroke="#7c3aed" strokeWidth="10" opacity="0.1" />
+            </svg>
+          </div>
+          {/* Planet glow */}
+          <div className="absolute inset-0 rounded-full bg-violet-600/20 blur-3xl scale-90" />
+        </div>
+
         <div className="absolute inset-0 bg-background/40" />
 
         <div className="relative z-10 max-w-7xl mx-auto w-full">
