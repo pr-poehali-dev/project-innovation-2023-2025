@@ -156,37 +156,61 @@ const Index = () => {
 
         {/* Rotating planet */}
         <div className="absolute pointer-events-none" style={{ bottom: "-80px", right: "-80px", width: "420px", height: "420px" }}>
-          <div className="relative w-full h-full animate-spin-slow">
+          <div className="relative w-full h-full">
             <svg viewBox="0 0 420 420" className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
               <defs>
                 <radialGradient id="planetGrad" cx="38%" cy="35%" r="65%">
-                  <stop offset="0%" stopColor="#7c3aed" stopOpacity="1" />
-                  <stop offset="40%" stopColor="#4f46e5" stopOpacity="1" />
-                  <stop offset="80%" stopColor="#1e1b4b" stopOpacity="1" />
-                  <stop offset="100%" stopColor="#0f0c29" stopOpacity="1" />
+                  <stop offset="0%" stopColor="#7c3aed" />
+                  <stop offset="40%" stopColor="#4f46e5" />
+                  <stop offset="80%" stopColor="#1e1b4b" />
+                  <stop offset="100%" stopColor="#0f0c29" />
                 </radialGradient>
                 <radialGradient id="shinGrad" cx="30%" cy="28%" r="40%">
                   <stop offset="0%" stopColor="white" stopOpacity="0.18" />
                   <stop offset="100%" stopColor="white" stopOpacity="0" />
                 </radialGradient>
+                {/* Затемнение правой половины (ночная сторона) */}
+                <radialGradient id="nightGrad" cx="72%" cy="50%" r="50%">
+                  <stop offset="0%" stopColor="#000" stopOpacity="0.7" />
+                  <stop offset="100%" stopColor="#000" stopOpacity="0" />
+                </radialGradient>
                 <clipPath id="planetClip">
                   <circle cx="210" cy="210" r="180" />
                 </clipPath>
               </defs>
+
               {/* Planet base */}
               <circle cx="210" cy="210" r="180" fill="url(#planetGrad)" />
-              {/* Surface bands */}
-              <g clipPath="url(#planetClip)" opacity="0.35">
-                <ellipse cx="210" cy="160" rx="190" ry="28" fill="#a78bfa" />
-                <ellipse cx="210" cy="210" rx="190" ry="22" fill="#6d28d9" />
-                <ellipse cx="210" cy="255" rx="190" ry="18" fill="#818cf8" />
-                <ellipse cx="210" cy="295" rx="190" ry="14" fill="#7c3aed" />
+
+              {/* Текстура поверхности — горизонтальное вращение через animateTransform */}
+              <g clipPath="url(#planetClip)" opacity="0.4">
+                {/* Полосы — удвоены по ширине для бесшовного цикла */}
+                <g>
+                  <animateTransform attributeName="transform" type="translate" from="0 0" to="-360 0" dur="20s" repeatCount="indefinite" />
+                  {[140, 168, 192, 215, 238, 262, 285, 308].map((cy, i) => (
+                    <ellipse key={i} cx="570" cy={cy} rx="570" ry={10 + (i % 3) * 5}
+                      fill={["#a78bfa","#6d28d9","#818cf8","#4f46e5","#7c3aed","#a78bfa","#6366f1","#818cf8"][i]}
+                    />
+                  ))}
+                </g>
+                {/* Континентальные пятна */}
+                <g>
+                  <animateTransform attributeName="transform" type="translate" from="0 0" to="-360 0" dur="20s" repeatCount="indefinite" />
+                  <ellipse cx="300" cy="190" rx="55" ry="30" fill="#c4b5fd" opacity="0.3" />
+                  <ellipse cx="500" cy="230" rx="40" ry="22" fill="#c4b5fd" opacity="0.25" />
+                  <ellipse cx="700" cy="200" rx="35" ry="18" fill="#c4b5fd" opacity="0.2" />
+                  <ellipse cx="150" cy="260" rx="30" ry="16" fill="#818cf8" opacity="0.2" />
+                  <ellipse cx="620" cy="270" rx="45" ry="20" fill="#7c3aed" opacity="0.2" />
+                </g>
               </g>
-              {/* Highlight */}
+
+              {/* Дневной свет */}
               <circle cx="210" cy="210" r="180" fill="url(#shinGrad)" />
-              {/* Atmosphere rim */}
-              <circle cx="210" cy="210" r="180" fill="none" stroke="#a78bfa" strokeWidth="6" opacity="0.25" />
-              <circle cx="210" cy="210" r="186" fill="none" stroke="#7c3aed" strokeWidth="10" opacity="0.1" />
+              {/* Ночная сторона */}
+              <circle cx="210" cy="210" r="180" fill="url(#nightGrad)" clipPath="url(#planetClip)" />
+              {/* Атмосфера */}
+              <circle cx="210" cy="210" r="180" fill="none" stroke="#a78bfa" strokeWidth="5" opacity="0.3" />
+              <circle cx="210" cy="210" r="187" fill="none" stroke="#7c3aed" strokeWidth="10" opacity="0.12" />
             </svg>
           </div>
           {/* Planet glow */}
