@@ -198,7 +198,7 @@ const Index = () => {
               Войти в бортовой журнал
             </button>
             <button className="px-5 py-2.5 text-sm font-medium bg-gradient-to-r from-accent via-accent to-accent/80 text-white rounded-full hover:shadow-lg hover:shadow-accent/40 transition-all font-semibold">
-              Начать
+              Регистрация нового члена экипажа
             </button>
           </div>
         </div>
