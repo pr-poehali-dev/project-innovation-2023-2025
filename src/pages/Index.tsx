@@ -182,17 +182,7 @@ const Index = () => {
               Бортовой журнал
             </div>
           </div>
-          <nav className="hidden md:flex gap-10 text-sm font-medium">
-            <a href="#features" className="text-muted-foreground hover:text-white transition-colors">
-              Возможности
-            </a>
-            <a href="#how" className="text-muted-foreground hover:text-white transition-colors">
-              Как это работает
-            </a>
-            <a href="#pricing" className="text-muted-foreground hover:text-white transition-colors">
-              Тарифы
-            </a>
-          </nav>
+
           <div className="flex gap-3">
             <button className="px-5 py-2.5 text-sm font-medium border border-accent/40 rounded-full hover:border-accent/70 hover:bg-accent/10 transition-all">
               Войти в бортовой журнал
