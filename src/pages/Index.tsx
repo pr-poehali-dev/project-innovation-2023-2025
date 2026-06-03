@@ -57,7 +57,7 @@ const Index = () => {
             <button className="px-5 py-2.5 text-sm font-medium border border-accent/40 rounded-full hover:border-accent/70 hover:bg-accent/10 transition-all">
               Войти
             </button>
-            <button className="px-5 py-2.5 text-sm font-medium bg-gradient-to-r from-accent via-accent to-accent/80 text-black rounded-full hover:shadow-lg hover:shadow-accent/40 transition-all font-semibold">
+            <button className="px-5 py-2.5 text-sm font-medium bg-gradient-to-r from-accent via-accent to-accent/80 text-white rounded-full hover:shadow-lg hover:shadow-accent/40 transition-all font-semibold">
               Начать
             </button>
           </div>
@@ -92,7 +92,7 @@ const Index = () => {
                 Личный дневник с единой базой для всех записей. До 200 пользователей — каждый видит только своё, всё надёжно хранится в одном месте.
               </p>
               <div className="flex gap-4 mb-12 flex-col sm:flex-row">
-                <button className="group px-8 py-4 bg-gradient-to-r from-accent to-accent/90 text-black rounded-full hover:shadow-2xl hover:shadow-accent/50 transition-all font-semibold text-lg flex items-center gap-3 justify-center">
+                <button className="group px-8 py-4 bg-gradient-to-r from-accent to-accent/90 text-white rounded-full hover:shadow-2xl hover:shadow-accent/50 transition-all font-semibold text-lg flex items-center gap-3 justify-center">
                   Начать вести дневник
                   <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition" />
                 </button>
@@ -318,7 +318,7 @@ const Index = () => {
                     <button
                       className={`w-full px-6 py-4 rounded-xl font-semibold transition-all ${
                         plan.highlight
-                          ? "bg-gradient-to-r from-accent to-accent/80 text-black hover:shadow-xl hover:shadow-accent/40"
+                          ? "bg-gradient-to-r from-accent to-accent/80 text-white hover:shadow-xl hover:shadow-accent/40"
                           : "border border-accent/20 hover:border-accent/40 hover:bg-accent/5"
                       }`}
                     >
@@ -345,7 +345,7 @@ const Index = () => {
           <p className="text-xl text-muted-foreground mb-12 font-light max-w-2xl mx-auto">
             Присоединяйтесь и начните фиксировать важные моменты своей жизни уже сегодня.
           </p>
-          <button className="group px-10 py-5 bg-gradient-to-r from-accent to-accent/90 text-black rounded-full hover:shadow-2xl hover:shadow-accent/40 transition-all font-bold text-lg flex items-center gap-3 mx-auto">
+          <button className="group px-10 py-5 bg-gradient-to-r from-accent to-accent/90 text-white rounded-full hover:shadow-2xl hover:shadow-accent/40 transition-all font-bold text-lg flex items-center gap-3 mx-auto">
             Создать свой дневник
             <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition" />
           </button>

@@ -2,86 +2,88 @@
 @tailwind components;
 @tailwind utilities;
 
+@import url("https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800;900&display=swap");
+
 @layer base {
   :root {
-    /* Dark theme with cyan/teal accent */
-    --background: 0 0% 0%;
-    --foreground: 0 0% 100%;
+    /* Deep space theme — dark navy with violet/indigo accent */
+    --background: 230 35% 4%;
+    --foreground: 220 20% 95%;
 
-    --card: 0 0% 4%;
-    --card-foreground: 0 0% 100%;
+    --card: 228 30% 7%;
+    --card-foreground: 220 20% 95%;
 
-    --popover: 0 0% 4%;
-    --popover-foreground: 0 0% 100%;
+    --popover: 228 30% 7%;
+    --popover-foreground: 220 20% 95%;
 
-    --primary: 174 100% 50%;
-    --primary-foreground: 0 0% 0%;
+    --primary: 258 90% 66%;
+    --primary-foreground: 0 0% 100%;
 
-    --secondary: 0 0% 10%;
-    --secondary-foreground: 0 0% 100%;
+    --secondary: 228 25% 12%;
+    --secondary-foreground: 220 20% 95%;
 
-    --muted: 0 0% 25%;
-    --muted-foreground: 0 0% 63%;
+    --muted: 228 20% 20%;
+    --muted-foreground: 220 15% 55%;
 
-    --accent: 174 100% 50%;
-    --accent-foreground: 0 0% 0%;
+    --accent: 258 90% 66%;
+    --accent-foreground: 0 0% 100%;
 
-    --destructive: 0 100% 50%;
+    --destructive: 0 80% 55%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 0 0% 10%;
-    --input: 0 0% 4%;
-    --ring: 174 100% 50%;
+    --border: 228 25% 14%;
+    --input: 228 30% 7%;
+    --ring: 258 90% 66%;
 
     --radius: 0.75rem;
 
-    --sidebar-background: 0 0% 4%;
-    --sidebar-foreground: 0 0% 100%;
-    --sidebar-primary: 174 100% 50%;
-    --sidebar-primary-foreground: 0 0% 0%;
-    --sidebar-accent: 0 0% 10%;
-    --sidebar-accent-foreground: 0 0% 100%;
-    --sidebar-border: 0 0% 10%;
-    --sidebar-ring: 174 100% 50%;
+    --sidebar-background: 228 30% 7%;
+    --sidebar-foreground: 220 20% 95%;
+    --sidebar-primary: 258 90% 66%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 228 25% 12%;
+    --sidebar-accent-foreground: 220 20% 95%;
+    --sidebar-border: 228 25% 14%;
+    --sidebar-ring: 258 90% 66%;
   }
 
   .dark {
-    --background: 0 0% 0%;
-    --foreground: 0 0% 100%;
+    --background: 230 35% 4%;
+    --foreground: 220 20% 95%;
 
-    --card: 0 0% 4%;
-    --card-foreground: 0 0% 100%;
+    --card: 228 30% 7%;
+    --card-foreground: 220 20% 95%;
 
-    --popover: 0 0% 4%;
-    --popover-foreground: 0 0% 100%;
+    --popover: 228 30% 7%;
+    --popover-foreground: 220 20% 95%;
 
-    --primary: 174 100% 50%;
-    --primary-foreground: 0 0% 0%;
+    --primary: 258 90% 66%;
+    --primary-foreground: 0 0% 100%;
 
-    --secondary: 0 0% 10%;
-    --secondary-foreground: 0 0% 100%;
+    --secondary: 228 25% 12%;
+    --secondary-foreground: 220 20% 95%;
 
-    --muted: 0 0% 25%;
-    --muted-foreground: 0 0% 63%;
+    --muted: 228 20% 20%;
+    --muted-foreground: 220 15% 55%;
 
-    --accent: 174 100% 50%;
-    --accent-foreground: 0 0% 0%;
+    --accent: 258 90% 66%;
+    --accent-foreground: 0 0% 100%;
 
-    --destructive: 0 100% 50%;
+    --destructive: 0 80% 55%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 0 0% 10%;
-    --input: 0 0% 4%;
-    --ring: 174 100% 50%;
+    --border: 228 25% 14%;
+    --input: 228 30% 7%;
+    --ring: 258 90% 66%;
 
-    --sidebar-background: 0 0% 4%;
-    --sidebar-foreground: 0 0% 100%;
-    --sidebar-primary: 174 100% 50%;
-    --sidebar-primary-foreground: 0 0% 0%;
-    --sidebar-accent: 0 0% 10%;
-    --sidebar-accent-foreground: 0 0% 100%;
-    --sidebar-border: 0 0% 10%;
-    --sidebar-ring: 174 100% 50%;
+    --sidebar-background: 228 30% 7%;
+    --sidebar-foreground: 220 20% 95%;
+    --sidebar-primary: 258 90% 66%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 228 25% 12%;
+    --sidebar-accent-foreground: 220 20% 95%;
+    --sidebar-border: 228 25% 14%;
+    --sidebar-ring: 258 90% 66%;
   }
 }
 
@@ -92,6 +94,19 @@
 
   body {
     @apply bg-background text-foreground;
+    background-image:
+      radial-gradient(
+        ellipse at 20% 20%,
+        hsla(258, 90%, 20%, 0.25) 0%,
+        transparent 50%
+      ),
+      radial-gradient(
+        ellipse at 80% 80%,
+        hsla(220, 90%, 15%, 0.2) 0%,
+        transparent 50%
+      ),
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Ccircle cx='50' cy='80' r='1' fill='white' opacity='0.6'/%3E%3Ccircle cx='150' cy='30' r='0.7' fill='white' opacity='0.4'/%3E%3Ccircle cx='250' cy='120' r='1.2' fill='white' opacity='0.7'/%3E%3Ccircle cx='350' cy='60' r='0.8' fill='white' opacity='0.5'/%3E%3Ccircle cx='100' cy='200' r='0.6' fill='white' opacity='0.3'/%3E%3Ccircle cx='320' cy='180' r='1' fill='white' opacity='0.5'/%3E%3Ccircle cx='70' cy='300' r='0.7' fill='white' opacity='0.4'/%3E%3Ccircle cx='200' cy='260' r='1.1' fill='white' opacity='0.6'/%3E%3Ccircle cx='380' cy='320' r='0.9' fill='white' opacity='0.4'/%3E%3Ccircle cx='30' cy='370' r='0.5' fill='white' opacity='0.3'/%3E%3Ccircle cx='290' cy='350' r='1.3' fill='white' opacity='0.7'/%3E%3Ccircle cx='170' cy='380' r='0.6' fill='white' opacity='0.3'/%3E%3Ccircle cx='130' cy='150' r='0.8' fill='%23a78bfa' opacity='0.5'/%3E%3Ccircle cx='360' cy='240' r='1' fill='%2393c5fd' opacity='0.4'/%3E%3Ccircle cx='220' cy='40' r='0.7' fill='%23a78bfa' opacity='0.6'/%3E%3C/svg%3E");
+    background-attachment: fixed;
   }
 
   html {
@@ -133,14 +148,47 @@
   @keyframes glow {
     0%,
     100% {
-      box-shadow: 0 0 20px rgba(0, 255, 209, 0.4);
+      box-shadow: 0 0 20px hsla(258, 90%, 66%, 0.4);
     }
     50% {
-      box-shadow: 0 0 40px rgba(0, 255, 209, 0.7);
+      box-shadow: 0 0 50px hsla(258, 90%, 66%, 0.8);
     }
   }
 
   .animate-glow {
     animation: glow 3s ease-in-out infinite;
+  }
+
+  @keyframes twinkle {
+    0%,
+    100% {
+      opacity: 0.3;
+    }
+    50% {
+      opacity: 1;
+    }
+  }
+
+  .animate-twinkle {
+    animation: twinkle 3s ease-in-out infinite;
+  }
+
+  @keyframes nebula {
+    0% {
+      transform: scale(1) rotate(0deg);
+      opacity: 0.15;
+    }
+    50% {
+      transform: scale(1.1) rotate(3deg);
+      opacity: 0.25;
+    }
+    100% {
+      transform: scale(1) rotate(0deg);
+      opacity: 0.15;
+    }
+  }
+
+  .animate-nebula {
+    animation: nebula 12s ease-in-out infinite;
   }
 }
