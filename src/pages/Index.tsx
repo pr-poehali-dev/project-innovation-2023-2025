@@ -291,6 +291,56 @@ const Index = () => {
           <div className="absolute top-1/2 right-1/3 w-64 h-64 bg-indigo-600/10 rounded-full blur-2xl animate-nebula" style={{ animationDelay: "8s" }} />
         </div>
 
+        {/* Flying rocket */}
+        <div className="absolute pointer-events-none animate-rocket" style={{ left: "-120px", top: "30%", zIndex: 1 }}>
+          <svg width="90" height="200" viewBox="0 0 90 200" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <radialGradient id="rocketBodyGrad" cx="35%" cy="30%" r="70%">
+                <stop offset="0%" stopColor="#ede9fe" />
+                <stop offset="50%" stopColor="#a78bfa" />
+                <stop offset="100%" stopColor="#4c1d95" />
+              </radialGradient>
+              <radialGradient id="windowGrad" cx="35%" cy="35%" r="65%">
+                <stop offset="0%" stopColor="#bfdbfe" />
+                <stop offset="100%" stopColor="#1e40af" />
+              </radialGradient>
+              <linearGradient id="flameGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stopColor="#fde68a" stopOpacity="1" />
+                <stop offset="40%" stopColor="#f97316" stopOpacity="0.9" />
+                <stop offset="100%" stopColor="#7c3aed" stopOpacity="0" />
+              </linearGradient>
+              <linearGradient id="flameGrad2" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stopColor="#fff" stopOpacity="0.9" />
+                <stop offset="50%" stopColor="#fbbf24" stopOpacity="0.7" />
+                <stop offset="100%" stopColor="#f97316" stopOpacity="0" />
+              </linearGradient>
+            </defs>
+            {/* Flame outer */}
+            <ellipse cx="45" cy="175" rx="18" ry="38" fill="url(#flameGrad)">
+              <animate attributeName="ry" values="38;46;34;42;38" dur="0.4s" repeatCount="indefinite" />
+              <animate attributeName="rx" values="18;14;20;15;18" dur="0.4s" repeatCount="indefinite" />
+            </ellipse>
+            {/* Flame inner */}
+            <ellipse cx="45" cy="168" rx="9" ry="22" fill="url(#flameGrad2)">
+              <animate attributeName="ry" values="22;28;18;25;22" dur="0.3s" repeatCount="indefinite" />
+            </ellipse>
+            {/* Left fin */}
+            <path d="M28 130 L10 160 L32 148 Z" fill="#7c3aed" opacity="0.9" />
+            {/* Right fin */}
+            <path d="M62 130 L80 160 L58 148 Z" fill="#7c3aed" opacity="0.9" />
+            {/* Rocket body */}
+            <rect x="28" y="80" width="34" height="70" rx="6" fill="url(#rocketBodyGrad)" />
+            {/* Nose cone */}
+            <path d="M28 80 Q28 30 45 18 Q62 30 62 80 Z" fill="url(#rocketBodyGrad)" />
+            {/* Window */}
+            <circle cx="45" cy="90" r="11" fill="url(#windowGrad)" />
+            <circle cx="45" cy="90" r="7" fill="#93c5fd" opacity="0.6" />
+            <circle cx="42" cy="87" r="2.5" fill="white" opacity="0.5" />
+            {/* Body stripe */}
+            <rect x="28" y="115" width="34" height="5" rx="2" fill="#c4b5fd" opacity="0.4" />
+          </svg>
+        </div>
+
         {/* Rotating planet */}
         <div className="absolute pointer-events-none" style={{ bottom: "-80px", right: "-80px", width: "420px", height: "420px" }}>
           <canvas ref={planetRef} style={{ width: "420px", height: "420px" }} />
