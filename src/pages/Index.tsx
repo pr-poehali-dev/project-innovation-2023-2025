@@ -195,7 +195,7 @@ const Index = () => {
           </nav>
           <div className="flex gap-3">
             <button className="px-5 py-2.5 text-sm font-medium border border-accent/40 rounded-full hover:border-accent/70 hover:bg-accent/10 transition-all">
-              Войти
+              Войти в бортовой журнал
             </button>
             <button className="px-5 py-2.5 text-sm font-medium bg-gradient-to-r from-accent via-accent to-accent/80 text-white rounded-full hover:shadow-lg hover:shadow-accent/40 transition-all font-semibold">
               Начать
