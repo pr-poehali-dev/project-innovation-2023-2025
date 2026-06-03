@@ -57,41 +57,43 @@ const Index = () => {
     texCanvas.height = TEXTURE_H;
     const tctx = texCanvas.getContext("2d")!;
 
+    // Яркие контрастные полосы
     const bands = [
-      { y: 0,   h: 40,  color: "#1e1b4b" },
-      { y: 40,  h: 30,  color: "#312e81" },
-      { y: 70,  h: 50,  color: "#4c1d95" },
-      { y: 120, h: 35,  color: "#5b21b6" },
-      { y: 155, h: 45,  color: "#6d28d9" },
-      { y: 200, h: 40,  color: "#7c3aed" },
-      { y: 240, h: 30,  color: "#8b5cf6" },
-      { y: 270, h: 50,  color: "#6d28d9" },
-      { y: 320, h: 40,  color: "#4f46e5" },
+      { y: 0,   h: 35,  color: "#4338ca" },
+      { y: 35,  h: 25,  color: "#7c3aed" },
+      { y: 60,  h: 40,  color: "#6d28d9" },
+      { y: 100, h: 30,  color: "#a855f7" },
+      { y: 130, h: 45,  color: "#8b5cf6" },
+      { y: 175, h: 35,  color: "#c084fc" },
+      { y: 210, h: 30,  color: "#7c3aed" },
+      { y: 240, h: 50,  color: "#6366f1" },
+      { y: 290, h: 35,  color: "#a78bfa" },
+      { y: 325, h: 35,  color: "#4338ca" },
     ];
     bands.forEach(({ y, h, color }) => {
       tctx.fillStyle = color;
       tctx.fillRect(0, y, TEXTURE_W, h);
     });
 
+    // Яркие пятна-континенты с сильным контрастом
     const continents = [
-      { x: 80,  y: 120, rx: 70, ry: 40 },
-      { x: 260, y: 160, rx: 55, ry: 35 },
-      { x: 430, y: 100, rx: 80, ry: 45 },
-      { x: 590, y: 200, rx: 60, ry: 30 },
-      { x: 150, y: 240, rx: 50, ry: 28 },
-      { x: 500, y: 270, rx: 65, ry: 35 },
-      { x: 340, y: 290, rx: 40, ry: 22 },
+      { x: 80,  y: 120, rx: 70, ry: 40,  c0: "rgba(240,220,255,0.85)", c1: "rgba(192,132,252,0.5)" },
+      { x: 260, y: 165, rx: 60, ry: 38,  c0: "rgba(255,255,255,0.75)", c1: "rgba(167,139,250,0.4)" },
+      { x: 440, y: 105, rx: 85, ry: 48,  c0: "rgba(240,220,255,0.8)",  c1: "rgba(139,92,246,0.4)"  },
+      { x: 600, y: 210, rx: 65, ry: 34,  c0: "rgba(255,255,255,0.7)",  c1: "rgba(192,132,252,0.3)" },
+      { x: 155, y: 250, rx: 55, ry: 30,  c0: "rgba(224,200,255,0.8)",  c1: "rgba(167,139,250,0.3)" },
+      { x: 510, y: 280, rx: 70, ry: 36,  c0: "rgba(255,255,255,0.75)", c1: "rgba(139,92,246,0.35)" },
+      { x: 350, y: 300, rx: 45, ry: 24,  c0: "rgba(240,220,255,0.7)",  c1: "rgba(192,132,252,0.2)" },
     ];
-    continents.forEach(({ x, y, rx, ry }) => {
+    continents.forEach(({ x, y, rx, ry, c0, c1 }) => {
       const g = tctx.createRadialGradient(x, y, 0, x, y, Math.max(rx, ry));
-      g.addColorStop(0, "rgba(196,181,253,0.55)");
-      g.addColorStop(0.6, "rgba(167,139,250,0.3)");
+      g.addColorStop(0, c0);
+      g.addColorStop(0.55, c1);
       g.addColorStop(1, "rgba(109,40,217,0)");
       tctx.fillStyle = g;
       tctx.beginPath();
       tctx.ellipse(x, y, rx, ry, 0, 0, Math.PI * 2);
       tctx.fill();
-      // wraparound
       tctx.beginPath();
       tctx.ellipse(x + TEXTURE_W, y, rx, ry, 0, 0, Math.PI * 2);
       tctx.fill();
@@ -161,7 +163,7 @@ const Index = () => {
       ctx.fillStyle = atm;
       ctx.fill();
 
-      offset = (offset + 0.0018) % 1;
+      offset = (offset + 0.006) % 1;
       raf = requestAnimationFrame(draw);
     };
 
@@ -342,9 +344,9 @@ const Index = () => {
         </div>
 
         {/* Rotating planet */}
-        <div className="absolute pointer-events-none" style={{ bottom: "-80px", right: "-80px", width: "420px", height: "420px" }}>
-          <canvas ref={planetRef} style={{ width: "420px", height: "420px" }} />
-          <div className="absolute inset-0 rounded-full bg-violet-600/25 blur-3xl scale-75 -z-10" />
+        <div className="absolute pointer-events-none" style={{ bottom: "-120px", right: "-100px", width: "560px", height: "560px" }}>
+          <canvas ref={planetRef} style={{ width: "560px", height: "560px" }} />
+          <div className="absolute inset-0 rounded-full bg-violet-500/30 blur-3xl scale-75 -z-10" />
         </div>
 
         <div className="absolute inset-0 bg-background/40" />
