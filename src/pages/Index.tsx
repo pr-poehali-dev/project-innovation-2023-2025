@@ -67,7 +67,7 @@ const Index = () => {
         <div className="max-w-7xl mx-auto px-6 py-5 flex justify-between items-center">
           <div className="flex items-center">
             <div className="font-display font-bold text-2xl tracking-tighter bg-gradient-to-r from-white via-accent to-accent/80 bg-clip-text text-transparent">
-              Личный дневник
+              Бортовой журнал
             </div>
           </div>
           <nav className="hidden md:flex gap-10 text-sm font-medium">
