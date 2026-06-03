@@ -2,8 +2,36 @@ import { useEffect, useState } from "react";
 import { ArrowRight } from "lucide-react";
 import Icon from "@/components/ui/icon";
 
+const STARS_COUNT = 160;
+const SHOOTING_STARS_COUNT = 6;
+
+function randomBetween(a: number, b: number) {
+  return a + Math.random() * (b - a);
+}
+
+const stars = Array.from({ length: STARS_COUNT }, (_, i) => ({
+  id: i,
+  x: randomBetween(0, 100),
+  y: randomBetween(0, 100),
+  r: randomBetween(0.4, 1.6),
+  opacity: randomBetween(0.3, 1),
+  delay: randomBetween(0, 6),
+  duration: randomBetween(2, 5),
+}));
+
+const shootingStars = Array.from({ length: SHOOTING_STARS_COUNT }, (_, i) => ({
+  id: i,
+  startX: randomBetween(10, 70),
+  startY: randomBetween(5, 45),
+  angle: randomBetween(25, 45),
+  length: randomBetween(120, 220),
+  delay: randomBetween(0, 14),
+  duration: randomBetween(1.2, 2.2),
+}));
+
 const Index = () => {
   const [visibleSections, setVisibleSections] = useState<Record<string, boolean>>({});
+
 
   useEffect(() => {
     const observers: Record<string, IntersectionObserver> = {};
@@ -66,10 +94,67 @@ const Index = () => {
 
       {/* Hero Section */}
       <section id="hero" className="relative pt-32 pb-32 px-6 min-h-screen flex items-center overflow-hidden">
-        <div className="absolute inset-0 w-full h-full flex items-center justify-center overflow-hidden">
-          <img src="/images/black-hole-gif.gif" alt="фоновая анимация" className="w-auto h-3/4 object-contain" />
+
+
+        {/* Static SVG stars */}
+        <svg className="absolute inset-0 w-full h-full" style={{ pointerEvents: "none" }}>
+          {stars.map((s) => (
+            <circle
+              key={s.id}
+              cx={`${s.x}%`}
+              cy={`${s.y}%`}
+              r={s.r}
+              fill="white"
+              opacity={s.opacity}
+              style={{
+                animation: `twinkle ${s.duration}s ${s.delay}s ease-in-out infinite`,
+              }}
+            />
+          ))}
+        </svg>
+
+        {/* Shooting stars */}
+        <svg className="absolute inset-0 w-full h-full" style={{ pointerEvents: "none" }}>
+          {shootingStars.map((ss) => {
+            const rad = (ss.angle * Math.PI) / 180;
+            const dx = Math.cos(rad) * ss.length;
+            const dy = Math.sin(rad) * ss.length;
+            const x2 = ss.startX + (dx / window.innerWidth) * 100;
+            const y2 = ss.startY + (dy / window.innerHeight) * 100;
+            return (
+              <line
+                key={ss.id}
+                x1={`${ss.startX}%`}
+                y1={`${ss.startY}%`}
+                x2={`${x2}%`}
+                y2={`${y2}%`}
+                stroke="url(#shootGrad)"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                style={{
+                  animation: `shoot ${ss.duration}s ${ss.delay}s ease-in infinite`,
+                  opacity: 0,
+                }}
+              />
+            );
+          })}
+          <defs>
+            <linearGradient id="shootGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stopColor="white" stopOpacity="0" />
+              <stop offset="60%" stopColor="white" stopOpacity="0.9" />
+              <stop offset="100%" stopColor="#a78bfa" stopOpacity="0.4" />
+            </linearGradient>
+          </defs>
+        </svg>
+
+        {/* Nebula glow blobs */}
+        <div className="absolute inset-0 pointer-events-none">
+          <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-violet-700/20 rounded-full blur-3xl animate-nebula" />
+          <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-blue-700/15 rounded-full blur-3xl animate-nebula" style={{ animationDelay: "4s" }} />
+          <div className="absolute top-1/2 right-1/3 w-64 h-64 bg-indigo-600/10 rounded-full blur-2xl animate-nebula" style={{ animationDelay: "8s" }} />
         </div>
-        <div className="absolute inset-0 bg-black/70" />
+
+        <div className="absolute inset-0 bg-background/40" />
 
         <div className="relative z-10 max-w-7xl mx-auto w-full">
           <div className="grid lg:grid-cols-2 gap-16 items-center">

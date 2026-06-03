@@ -191,4 +191,30 @@
   .animate-nebula {
     animation: nebula 12s ease-in-out infinite;
   }
+
+  @keyframes shoot {
+    0% {
+      opacity: 0;
+      stroke-dasharray: 0 300;
+      stroke-dashoffset: 0;
+    }
+    15% {
+      opacity: 1;
+    }
+    45% {
+      opacity: 1;
+      stroke-dasharray: 180 300;
+      stroke-dashoffset: 0;
+    }
+    75% {
+      opacity: 0;
+      stroke-dasharray: 180 300;
+      stroke-dashoffset: -200;
+    }
+    100% {
+      opacity: 0;
+      stroke-dasharray: 0 300;
+      stroke-dashoffset: -300;
+    }
+  }
 }
