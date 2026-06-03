@@ -205,7 +205,7 @@ const Index = () => {
         </div>
 
         {/* Rotating planet */}
-        <div className="absolute pointer-events-none" style={{ bottom: "-100px", right: "-100px", width: "500px", height: "500px" }}>
+        <div className="absolute pointer-events-none" style={{ bottom: "-100px", right: "-100px", width: "500px", height: "500px", perspective: "900px" }}>
           <div className="relative w-full h-full animate-spin-slow">
             <svg viewBox="0 0 420 420" className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
               <defs>
